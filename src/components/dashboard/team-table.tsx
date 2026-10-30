@@ -2,7 +2,7 @@ import DataTable from '../common/data-table'
 import type PremierTeam from '../../types/premier-teams/premier-team'
 
 type SummaryRow = { field: string; value: string | number | boolean }
-	
+
 const columns = [
 	{ header: 'Field', render: (row: SummaryRow) => row.field },
 	{ header: 'Value', render: (row: SummaryRow) => String(row.value) },

@@ -6,6 +6,8 @@
 [dev]
 	command = "npm run dev:vite"
 	targetPort = 5173
+	framework = "#custom"
+	publish = "."
 	port = 8888
 
 [[redirects]]

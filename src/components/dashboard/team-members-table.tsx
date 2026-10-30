@@ -1,3 +1,4 @@
+import { useNavigate } from 'react-router-dom'
 import DataTable from '../common/data-table'
 import type PremierTeam from '../../types/premier-teams/premier-team'
 
@@ -13,11 +14,14 @@ type TeamMembersTableProps = {
 }
 
 const TeamMembersTable = ({ members }: TeamMembersTableProps) => {
+	const navigate = useNavigate()
+
 	return (
 		<DataTable
 			columns={columns}
 			rows={members}
 			getRowKey={(member) => member.puuid}
+			onRowClick={(member) => navigate(`/player/${member.puuid}`)}
 		/>
 	)
 }

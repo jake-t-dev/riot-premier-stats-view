@@ -5,23 +5,25 @@ import type APIResponse from '../../types/api/api-response'
 import type PremierTeamLookupOptions from '../../types/premier-teams/premier-lookup-options'
 
 const fetchPremierTeam = async ({
+	id,
 	name,
 	tag,
 	season,
 	affinity,
-}: PremierTeamLookupOptions): Promise<PremierTeam> => {
+}: PremierTeamLookupOptions & { id?: string }): Promise<PremierTeam> => {
 	const params = new URLSearchParams()
-	params.set('name', name)
-	params.set('tag', tag)
+	if (id) params.set('id', id)
+	else {
+		params.set('name', name)
+		params.set('tag', tag)
+	}
 	if (season) params.set('season', season)
 	if (affinity) params.set('affinity', affinity)
 
 	const response = await fetch(`/api/premier-team?${params.toString()}`)
 
 	if (!response.headers.get('content-type')?.includes('application/json')) {
-		throw new Error(
-			'The /api/premier-team function is unavailable.',
-		)
+		throw new Error('The /api/premier-team function is unavailable.')
 	}
 
 	const body = (await response.json()) as APIResponse | APIError
@@ -41,17 +43,20 @@ const fetchPremierTeam = async ({
 	return body.data
 }
 
-const useGetPremierTeam = (options: PremierTeamLookupOptions) => {
+const useGetPremierTeam = (
+	options: PremierTeamLookupOptions & { id?: string },
+) => {
 	return useApiQuery({
 		queryKey: [
 			'premier-team',
+			options.id,
 			options.name,
 			options.tag,
 			options.season,
 			options.affinity,
 		],
 		queryFn: () => fetchPremierTeam(options),
-		enabled: Boolean(options.name.trim() && options.tag.trim()),
+		enabled: Boolean(options.id || (options.name.trim() && options.tag.trim())),
 	})
 }
 
