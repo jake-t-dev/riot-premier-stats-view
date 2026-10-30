@@ -1,0 +1,12 @@
+{
+  "$schema": "./node_modules/oxlint/configuration_schema.json",
+  "plugins": ["import", "react", "typescript", "oxc"],
+  "rules": {
+    "func-style": ["error", "expression"],
+    "import/exports-last": "error",
+    "import/no-named-export": "error",
+    "prefer-arrow-callback": "error",
+    "react/rules-of-hooks": "error",
+    "react/only-export-components": ["warn", { "allowConstantExport": true }]
+  }
+}
