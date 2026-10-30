@@ -13,7 +13,9 @@ const PlayerPage = () => {
 	const accountCard = player?.account.card
 	const cardId = typeof accountCard === 'string' ? accountCard : accountCard?.id
 	const fallbackCard =
-		typeof accountCard === 'object' ? accountCard.small : undefined
+		typeof accountCard === 'object' && accountCard !== null
+			? accountCard.small
+			: undefined
 	const { data: card } = useGetPlayerCard(cardId)
 	const { data: rank } = useGetCompetitiveTier(
 		player?.mmr?.current_data?.currenttier,

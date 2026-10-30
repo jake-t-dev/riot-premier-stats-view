@@ -43,7 +43,27 @@ const DataTable = <Row,>({
 							key={getRowKey(row)}
 							hover={Boolean(onRowClick)}
 							onClick={onRowClick && (() => onRowClick(row))}
-							sx={onRowClick && { cursor: 'pointer' }}
+							onKeyDown={
+								onRowClick &&
+								((event: { key: string; preventDefault: () => void }) => {
+									if (event.key === 'Enter') onRowClick(row)
+									if (event.key === ' ') {
+										event.preventDefault()
+										onRowClick(row)
+									}
+								})
+							}
+							tabIndex={onRowClick ? 0 : undefined}
+							sx={
+								onRowClick && {
+									cursor: 'pointer',
+									'&:focus-visible': {
+										outline: '2px solid',
+										outlineColor: 'primary.main',
+										outlineOffset: '-2px',
+									},
+								}
+							}
 						>
 							{columns.map((column) => (
 								<TableCell key={column.header}>{column.render(row)}</TableCell>

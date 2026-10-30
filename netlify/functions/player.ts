@@ -51,9 +51,23 @@ const handler: Handler = async (event) => {
 		{ headers },
 	)
 	if (!accountResponse.ok) {
+		const body = await accountResponse.text()
+		try {
+			JSON.parse(body)
+		} catch {
+			return jsonResponse(accountResponse.status, {
+				errors: [
+					{
+						message:
+							body || accountResponse.statusText || 'Upstream request failed',
+					},
+				],
+			})
+		}
+
 		return {
-			...jsonResponse(accountResponse.status, undefined),
-			body: await accountResponse.text(),
+			...jsonResponse(accountResponse.status, null),
+			body,
 		}
 	}
 

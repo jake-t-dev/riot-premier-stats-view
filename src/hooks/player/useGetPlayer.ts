@@ -44,6 +44,7 @@ const useGetPlayer = (options: PlayerLookupOptions) => {
 		queryKey: ['player', options.puuid, options.name, options.tag],
 		queryFn: () => fetchPlayer(options),
 		enabled: Boolean(options.puuid || (options.name && options.tag)),
+		retry: false,
 	})
 }
 
