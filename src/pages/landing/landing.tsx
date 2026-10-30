@@ -8,11 +8,10 @@ const LandingPage = () => {
 			sx={{ py: 12, alignItems: 'center', textAlign: 'center' }}
 		>
 			<Typography variant='h2' sx={{ fontWeight: 700 }}>
-				Valorant Premier Stats
+				ValoView
 			</Typography>
 			<Typography variant='h6' color='text.secondary' sx={{ maxWidth: 560 }}>
-				Look up any Premier team to see its roster, standings and match
-				history.
+				Look up any Premier team to see its roster, standings and match history.
 			</Typography>
 			<Button
 				variant='contained'

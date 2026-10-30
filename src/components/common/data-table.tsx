@@ -18,9 +18,15 @@ type DataTableProps<Row> = {
 	columns: Column<Row>[]
 	rows: Row[]
 	getRowKey: (row: Row) => string
+	onRowClick?: (row: Row) => void
 }
 
-const DataTable = <Row,>({ columns, rows, getRowKey }: DataTableProps<Row>) => {
+const DataTable = <Row,>({
+	columns,
+	rows,
+	getRowKey,
+	onRowClick,
+}: DataTableProps<Row>) => {
 	return (
 		<TableContainer component={Paper}>
 			<Table size='small'>
@@ -33,7 +39,12 @@ const DataTable = <Row,>({ columns, rows, getRowKey }: DataTableProps<Row>) => {
 				</TableHead>
 				<TableBody>
 					{rows.map((row) => (
-						<TableRow key={getRowKey(row)}>
+						<TableRow
+							key={getRowKey(row)}
+							hover={Boolean(onRowClick)}
+							onClick={onRowClick && (() => onRowClick(row))}
+							sx={onRowClick && { cursor: 'pointer' }}
+						>
 							{columns.map((column) => (
 								<TableCell key={column.header}>{column.render(row)}</TableCell>
 							))}

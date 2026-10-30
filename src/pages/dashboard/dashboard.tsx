@@ -1,4 +1,5 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
+import { useNavigate, useParams } from 'react-router-dom'
 import { Alert, Stack, Typography } from '@mui/material'
 import LoadingBoundary from '../../hooks/common/useIsLoading'
 import useGetPremierTeam from '../../hooks/premier-team/useGetPremierTeam'
@@ -11,7 +12,19 @@ const emptyLookup: PremierTeamLookupOptions = { name: '', tag: '' }
 
 const DashboardPage = () => {
 	const [lookup, setLookup] = useState<PremierTeamLookupOptions>(emptyLookup)
-	const { data: team, isLoading, error } = useGetPremierTeam(lookup)
+	const { teamId } = useParams()
+	const navigate = useNavigate()
+	const {
+		data: team,
+		isLoading,
+		error,
+	} = useGetPremierTeam(lookup.name ? lookup : { ...lookup, id: teamId })
+
+	useEffect(() => {
+		if (team && team.id !== teamId) {
+			navigate(`/team-lookup/${team.id}`, { replace: true })
+		}
+	}, [team, teamId, navigate])
 
 	return (
 		<Stack spacing={3} sx={{ py: 4 }}>
